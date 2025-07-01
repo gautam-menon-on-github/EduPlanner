@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Subject</title>
+</head>
+
+<body>
+<h2>Add New Subject</h2>
+<form th:action="@{/subjects/add}" th:object="${subject}" method="post">
+    Name: <input type="text" th:field="*{name}" required /> <br />
+    <button type="submit">Add</button>
+</form>
+
+<a href="/subjects">Cancel</a>
+</body>
+</html>

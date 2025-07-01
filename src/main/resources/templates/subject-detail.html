@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Subject Details</title>
+</head>
+<body>
+
+<h2 th:text="'Subject: ' + ${subject.name}">Subject Name</h2>
+
+<hr/>
+
+<!-- MARKS SECTION -->
+<h3>Marks</h3>
+<table border="1">
+    <tr>
+        <th>Exam</th>
+        <th>Score</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="mark : ${marks}">
+        <td th:text="${mark.examName}">Exam Name</td>
+        <td th:text="${mark.score}">Score</td>
+        <td>
+            <a th:href="@{'/marks/edit/' + ${mark.id}}">Edit</a> |
+            <a th:href="@{'/marks/delete/' + ${mark.id}}"
+               onclick="return confirm('Are you sure you want to delete this mark?')">Delete</a>
+        </td>
+    </tr>
+</table>
+
+<a th:href="@{'/marks/add/' + ${subject.id}}">➕ Add New Mark</a>
+
+<hr/>
+
+<!-- TOPICS SECTION -->
+<h3>Syllabus Topics</h3>
+<table border="1">
+    <tr>
+        <th>Topic</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="topic : ${topics}">
+        <td th:text="${topic.topicName}">Topic Name</td>
+        <td th:text="${topic.completed ? '✅ Completed' : '❌ Incomplete'}">Status</td>
+        <td>
+            <a th:href="@{'/topics/edit/' + ${topic.id}}">Edit</a> |
+            <a th:href="@{'/topics/delete/' + ${topic.id}}"
+               onclick="return confirm('Are you sure you want to delete this topic?')">Delete</a>
+        </td>
+    </tr>
+</table>
+
+<a th:href="@{'/topics/add/' + ${subject.id}}">➕ Add New Topic</a>
+
+<hr/>
+
+<a href="/subjects">🔙 Back to Subjects</a>
+
+</body>
+</html>
