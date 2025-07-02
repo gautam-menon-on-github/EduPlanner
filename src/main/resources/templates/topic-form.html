@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${topic.id == 0} ? 'Add Topic' : 'Edit Topic'">Topic Form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="centered-page">
+<div class="container centered">
+    <h2 th:text="${topic.id == 0} ? '➕ Add New Topic' : '✏️ Edit Topic'">Topic Form</h2>
+
+    <form th:action="@{${topic.id == 0} ? '/topics/add/' + ${subjectId} : '/topics/edit/' + ${topic.id}}"
+          th:object="${topic}" method="post" style="margin-top: 20px;">
+
+        <div style="margin-bottom: 15px; text-align: left;">
+            <label>Topic Name:</label><br>
+            <input type="text" th:field="*{topicName}" placeholder="e.g. Linear Equations" required style="width: 100%; padding: 10px;">
+        </div>
+
+        <div style="margin-bottom: 25px; text-align: left;">
+            <label>Status:</label><br>
+            <select th:field="*{completed}" style="width: 100%; padding: 10px;">
+                <option th:value="false">❌ Incomplete</option>
+                <option th:value="true">✅ Completed</option>
+            </select>
+        </div>
+
+        <input type="submit" th:value="${topic.id == 0} ? 'Add Topic' : 'Update Topic'" style="width: 100%; margin-bottom: 10px;">
+
+        <a th:href="@{'/subjects/' + ${subjectId} + '/details'}">
+            <button type="button" style="width: 100%;">🔙 Cancel</button>
+        </a>
+    </form>
+
+    <footer style="margin-top: 30px;">
+        <hr>
+        <p style="text-align:center; color:#888;">Made with ❤️ using Spring Boot & Thymeleaf</p>
+    </footer>
+</div>
+</body>
+</html>

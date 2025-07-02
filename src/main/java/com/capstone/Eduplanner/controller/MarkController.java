@@ -35,19 +35,25 @@ public class MarkController {
         return "mark-form";
     }
 
-    @PostMapping("/add")
-    public String addMark(@ModelAttribute Mark mark, HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        Subject subject = subjectService.getSubjectById(mark.getSubject().getId());
+    @PostMapping("/add/{subjectId}")
+    public String addMark(@PathVariable int subjectId,
+                          @ModelAttribute("mark") Mark mark,
+                          HttpSession session) {
 
-        if (userId == null || subject == null || subject.getUser().getId() != userId) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) return "redirect:/login";
+
+        Subject subject = subjectService.getSubjectById(subjectId);
+        if (subject == null || subject.getUser().getId() != userId) {
             return "error-403";
         }
 
-        mark.setSubject(subject); // Ensure subject is correct and attached
-        markService.addMark(mark);
-        return "redirect:/subjects/" + subject.getId() + "/details";
+        mark.setSubject(subject);
+        markService.saveMark(mark);
+
+        return "redirect:/subjects/" + subjectId + "/details";
     }
+
 
     @GetMapping("/edit/{id}")
     public String showEditMarkForm(@PathVariable int id, Model model, HttpSession session) {
@@ -64,19 +70,27 @@ public class MarkController {
 
     }
 
-    @PostMapping("/edit")
-    public String editMark(@ModelAttribute Mark mark, HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        Subject subject = subjectService.getSubjectById(mark.getSubject().getId());
+    @PostMapping("/edit/{id}")
+    public String editMark(@PathVariable int id,
+                             @ModelAttribute("mark") Mark updatedMark,
+                             HttpSession session) {
 
-        if (userId == null || subject == null || subject.getUser().getId() != userId) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) return "redirect:/login";
+
+        Mark existingMark = markService.getMarkById(id);
+        if (existingMark == null || existingMark.getSubject().getUser().getId() != userId) {
             return "error-403";
         }
 
-        mark.setSubject(subject);
-        markService.updateMark(mark);
-        return "redirect:/subjects/" + subject.getId() + "/details";
+        existingMark.setExamName(updatedMark.getExamName());
+        existingMark.setScore(updatedMark.getScore());
+
+        markService.saveMark(existingMark);
+
+        return "redirect:/subjects/" + existingMark.getSubject().getId() + "/details";
     }
+
 
     @GetMapping("/delete/{id}")
     public String deleteMark(@PathVariable int id, HttpSession session) {

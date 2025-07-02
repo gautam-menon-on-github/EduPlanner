@@ -26,28 +26,35 @@ public class TopicController {
         Subject subject = subjectService.getSubjectById(subjectId);
 
         if (userId == null || subject == null || subject.getUser().getId() != userId) {
-            return "error/403";
+            return "error-403";
         }
 
         Topic topic = new Topic();
         topic.setSubject(subject);
+
         model.addAttribute("topic", topic);
-        return "add_topic";
+        model.addAttribute("subjectId", subjectId); // Needed for cancel/back link
+        return "topic-form";
     }
 
-    @PostMapping("/add")
-    public String addTopic(@ModelAttribute Topic topic, HttpSession session) {
+
+    @PostMapping("/add/{subjectId}")
+    public String addTopic(@PathVariable int subjectId,
+                           @ModelAttribute Topic topic,
+                           HttpSession session) {
         Integer userId = (Integer) session.getAttribute("userId");
-        Subject subject = subjectService.getSubjectById(topic.getSubject().getId());
+        Subject subject = subjectService.getSubjectById(subjectId);
 
         if (userId == null || subject == null || subject.getUser().getId() != userId) {
-            return "error/403";
+            return "error-403";
         }
 
         topic.setSubject(subject);
         topicService.addTopic(topic);
-        return "redirect:/subjects/" + subject.getId() + "/details";
+
+        return "redirect:/subjects/" + subjectId + "/details";
     }
+
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable int id, Model model, HttpSession session) {
@@ -55,26 +62,36 @@ public class TopicController {
         Topic topic = topicService.getTopicById(id);
 
         if (topic == null || topic.getSubject() == null || topic.getSubject().getUser().getId() != userId) {
-            return "error/403";
+            return "error-403";
         }
 
         model.addAttribute("topic", topic);
-        return "edit_topic";
+        model.addAttribute("subjectId", topic.getSubject().getId()); // needed for cancel/back
+        return "topic-form";
     }
 
-    @PostMapping("/edit")
-    public String editTopic(@ModelAttribute Topic topic, HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        Subject subject = subjectService.getSubjectById(topic.getSubject().getId());
 
-        if (userId == null || subject == null || subject.getUser().getId() != userId) {
-            return "error/403";
+    @PostMapping("/edit/{id}")
+    public String editTopic(@PathVariable int id,
+                            @ModelAttribute Topic updatedTopic,
+                            HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        Topic existingTopic = topicService.getTopicById(id);
+
+        if (userId == null || existingTopic == null ||
+                existingTopic.getSubject() == null ||
+                existingTopic.getSubject().getUser().getId() != userId) {
+            return "error-403";
         }
 
-        topic.setSubject(subject);
-        topicService.updateTopic(topic);
-        return "redirect:/subjects/" + subject.getId() + "/details";
+        existingTopic.setTopicName(updatedTopic.getTopicName());
+        existingTopic.setCompleted(updatedTopic.isCompleted());
+
+        topicService.updateTopic(existingTopic);
+
+        return "redirect:/subjects/" + existingTopic.getSubject().getId() + "/details";
     }
+
 
     @GetMapping("/delete/{id}")
     public String deleteTopic(@PathVariable int id, HttpSession session) {
@@ -82,7 +99,7 @@ public class TopicController {
         Topic topic = topicService.getTopicById(id);
 
         if (topic == null || topic.getSubject() == null || topic.getSubject().getUser().getId() != userId) {
-            return "error/403";
+            return "error-403";
         }
 
         int subjectId = topic.getSubject().getId();

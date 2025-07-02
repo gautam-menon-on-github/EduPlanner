@@ -1,6 +1,7 @@
 package com.capstone.Eduplanner.controller;
 
 import com.capstone.Eduplanner.model.User;
+import com.capstone.Eduplanner.service.QuoteService;
 import com.capstone.Eduplanner.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,16 +56,19 @@ public class UserController {
         return "redirect:/login";
     }
 
+    @Autowired
+    private QuoteService quoteService;
+
     @GetMapping("/dashboard")
-    public String dashboard(HttpSession session, Model model) {
+    public String dashboard(Model model, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) return "redirect:/login";
 
-        if (userId == null) {
-            return "redirect:/login";
-        }
+        String quote = quoteService.getRandomQuote();
+        model.addAttribute("quote", quote);
 
-        model.addAttribute("userId", userId);
         return "dashboard";
     }
+
 
 }

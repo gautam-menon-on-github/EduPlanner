@@ -26,6 +26,10 @@ public class MarkService {
         return markRepository.findById(id).orElse(null);
     }
 
+    public void saveMark(Mark mark) {
+        markRepository.save(mark);
+    }
+
     public void updateMark(Mark mark) {
         markRepository.save(mark);
     }
