@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${mark.id == 0} ? 'Add Mark' : 'Edit Mark'">Mark Form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1 th:text="${mark.id == 0} ? '➕ Add New Mark' : '✏️ Edit Mark'">Mark Form</h1>
+
+    <form th:action="@{${mark.id == 0} ? '/marks/add/' + ${subjectId} : '/marks/edit/' + ${mark.id}}" th:object="${mark}" method="post">
+        <div>
+            <label>Exam Name:</label><br>
+            <input type="text" th:field="*{examName}" required>
+        </div>
+
+        <div style="margin-top: 15px;">
+            <label>Score:</label><br>
+            <input type="number" th:field="*{score}" min="0" required>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <input type="submit" th:value="${mark.id == 0} ? 'Add Mark' : 'Update Mark'">
+            <a th:href="@{'/subjects/' + ${subjectId} + '/details'}"><button type="button">🔙 Cancel</button></a>
+        </div>
+    </form>
+
+    <footer>
+        <hr>
+        <p style="text-align:center; color:#888;">Made with ❤️ using Spring Boot & Thymeleaf</p>
+    </footer>
+</div>
+</body>
+</html>

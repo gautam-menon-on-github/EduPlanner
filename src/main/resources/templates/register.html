@@ -1,18 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <title>Registration</title>
+    <meta charset="UTF-8">
+    <title>Register - EduPlanner</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
+<body class="centered-page">
+<div class="container centered">
+    <h1>📝 Register for EduPlanner</h1>
 
-<body>
-<h2>Register New User</h2>
-<form th:action="@{/register}" th:object="${user}" method="post">
-    Name: <input type="text" th:field="*{name}" /> <br/>
-    Email: <input type="email" th:field="*{email}" /> <br/>
-    Password: <input type="password" th:field="*{password}" /> <br/>
-    <button type="submit">Register</button>
-</form>
-<a href="/login">Already registered? Login here</a>
+    <form th:action="@{/register}" th:object="${user}" method="post" style="margin-top: 30px;">
+        <div style="margin-bottom: 15px; text-align: left;">
+            <label>Name:</label><br>
+            <input type="text" th:field="*{name}" placeholder="Your name" required style="width: 100%; padding: 10px;">
+        </div>
+
+        <div style="margin-bottom: 15px; text-align: left;">
+            <label>Email:</label><br>
+            <input type="email" th:field="*{email}" placeholder="Your email" required style="width: 100%; padding: 10px;">
+        </div>
+
+        <div style="margin-bottom: 20px; text-align: left;">
+            <label>Password:</label><br>
+            <input type="password" th:field="*{password}" placeholder="Create a password" required style="width: 100%; padding: 10px;">
+        </div>
+
+        <input type="submit" value="Register" style="width: 100%; margin-top: 10px;">
+    </form>
+
+    <p style="margin-top: 20px;">Already have an account? <a th:href="@{/login}">Login here</a></p>
+
+    <footer style="margin-top: 30px;">
+        <p style="color: #888;">Made with ❤️ using Spring Boot & Thymeleaf</p>
+    </footer>
+</div>
 </body>
 </html>

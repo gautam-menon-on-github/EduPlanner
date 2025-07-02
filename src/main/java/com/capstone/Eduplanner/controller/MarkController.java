@@ -21,18 +21,18 @@ public class MarkController {
     private SubjectService subjectService;
 
     @GetMapping("/add/{subjectId}")
-    public String showAddForm(@PathVariable int subjectId, Model model, HttpSession session) {
+    public String showAddMarkForm(@PathVariable int subjectId, Model model, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("userId");
         Subject subject = subjectService.getSubjectById(subjectId);
 
         if (userId == null || subject == null || subject.getUser().getId() != userId) {
-            return "error/403";
+            return "error-403";
         }
 
         Mark mark = new Mark();
-        mark.setSubject(subject);
         model.addAttribute("mark", mark);
-        return "add_mark";
+        model.addAttribute("subjectId", subjectId);
+        return "mark-form";
     }
 
     @PostMapping("/add")
@@ -41,7 +41,7 @@ public class MarkController {
         Subject subject = subjectService.getSubjectById(mark.getSubject().getId());
 
         if (userId == null || subject == null || subject.getUser().getId() != userId) {
-            return "error/403";
+            return "error-403";
         }
 
         mark.setSubject(subject); // Ensure subject is correct and attached
@@ -50,16 +50,18 @@ public class MarkController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable int id, Model model, HttpSession session) {
+    public String showEditMarkForm(@PathVariable int id, Model model, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("userId");
         Mark mark = markService.getMarkById(id);
 
         if (mark == null || mark.getSubject() == null || mark.getSubject().getUser().getId() != userId) {
-            return "error/403";
+            return "error-403";
         }
 
         model.addAttribute("mark", mark);
-        return "edit_mark";
+        model.addAttribute("subjectId", mark.getSubject().getId());
+        return "mark-form";
+
     }
 
     @PostMapping("/edit")
@@ -68,7 +70,7 @@ public class MarkController {
         Subject subject = subjectService.getSubjectById(mark.getSubject().getId());
 
         if (userId == null || subject == null || subject.getUser().getId() != userId) {
-            return "error/403";
+            return "error-403";
         }
 
         mark.setSubject(subject);
@@ -82,7 +84,7 @@ public class MarkController {
         Mark mark = markService.getMarkById(id);
 
         if (mark == null || mark.getSubject() == null || mark.getSubject().getUser().getId() != userId) {
-            return "error/403";
+            return "error-403";
         }
 
         int subjectId = mark.getSubject().getId();
