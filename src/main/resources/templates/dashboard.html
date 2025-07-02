@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
-
 <body>
-<h2>Welcome to your Dashboard!</h2>
-<p>Your User ID is: <span th:text="${userId}"></span></p>
-<a href="/logout">Logout</a>
+<div class="container">
+    <h1>📘 Welcome to your Dashboard</h1>
+    <hr>
+
+    <p>Here's a quick overview of your academic progress.</p>
+
+    <a href="/subjects"><button>📚 View Subjects</button></a>
+    <a href="/todo"><button>📝 Your To-Do List</button></a>
+    <a href="/logout"><button>🚪 Logout</button></a>
+
+    <footer>
+        <hr>
+        <p style="text-align:center; color:#888;">Made with ❤️ using Spring Boot & Thymeleaf</p>
+    </footer>
+</div>
 </body>
 </html>
