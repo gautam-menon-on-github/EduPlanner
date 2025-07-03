@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Add Subject</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
-<h2>Add New Subject</h2>
-<form th:action="@{/subjects/add}" th:object="${subject}" method="post">
-    Name: <input type="text" th:field="*{name}" required /> <br />
-    <button type="submit">Add</button>
-</form>
+<div class="container">
+    <h1>➕ Add New Subject</h1>
 
-<a href="/subjects">Cancel</a>
+    <form th:action="@{/subjects/add}" th:object="${subject}" method="post" style="margin-top: 20px;">
+        <label>Subject Name:</label><br>
+        <input type="text" th:field="*{name}" placeholder="Enter subject name" required style="width: 100%; padding: 10px; margin-top: 5px;"><br>
+
+        <div style="margin-top: 20px;">
+            <input type="submit" value="Add Subject">
+            <a th:href="@{/subjects}"><button type="button">Cancel</button></a>
+        </div>
+    </form>
+
+    <footer>
+<!--        <hr>-->
+<!--        <p style="text-align:center; color:#888;">Made with ❤️ using Spring Boot & Thymeleaf</p>-->
+    </footer>
+</div>
 </body>
 </html>

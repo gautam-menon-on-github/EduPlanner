@@ -10,6 +10,11 @@
 <div class="container centered">
     <h1>👋 Welcome to EduPlanner!</h1>
 
+    <!-- Error message -->
+    <div th:if="${error}" style="background-color: #ffdddd; border-left: 5px solid #f44336; padding: 10px; margin-bottom: 20px; color: #a94442;">
+        <p th:text="${error}">Invalid credentials!</p>
+    </div>
+
     <form th:action="@{/login}" method="post" style="margin-top: 30px;">
         <div style="margin-bottom: 15px; text-align: left;">
             <label>Email:</label><br>
@@ -27,7 +32,7 @@
     <p style="margin-top: 20px;">New user? <a th:href="@{/register}">Register here</a></p>
 
     <footer style="margin-top: 30px;">
-        <p style="color: #888;">Made with ❤️ using Spring Boot & Thymeleaf</p>
+<!--        <p style="color: #888;">Made with ❤️ using Spring Boot & Thymeleaf</p>-->
     </footer>
 </div>
 </body>

@@ -73,9 +73,12 @@ public class UserController {
     private QuoteService quoteService;
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model, HttpSession session) {
+    public String showDashboard(Model model, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) return "redirect:/login";
+
+        String currentUsername = userService.findById(userId).get().getName();
+        model.addAttribute("name", currentUsername);
 
         String quote = quoteService.getRandomQuote();
         model.addAttribute("quote", quote);
