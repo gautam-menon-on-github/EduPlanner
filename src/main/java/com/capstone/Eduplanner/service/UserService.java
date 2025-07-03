@@ -3,6 +3,7 @@ package com.capstone.Eduplanner.service;
 import com.capstone.Eduplanner.model.User;
 import com.capstone.Eduplanner.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,19 +14,23 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // register new users.
-    public User register(User user) {
-        return userRepository.save(user);
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public void register(User user) {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        userRepository.save(user);
     }
 
-    // login existing users.
-    public Optional<User> login(String email, String password) {
-        Optional<User> optionalUser = userRepository.findByEmail(email);
-
-        if (optionalUser.isPresent() && optionalUser.get().getPassword().equals(password)) {
-            return optionalUser;
+    public Optional<User> login(String email, String rawPassword) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            if (passwordEncoder.matches(rawPassword, user.getPassword())) {
+                return Optional.of(user);
+            }
         }
-
         return Optional.empty();
     }
 
