@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your To-Do List</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>📝 Your To-Do List</h1>
+
+    <form th:action="@{/todos/add}" method="post">
+        <input type="text" name="description" placeholder="Enter a task..." required>
+        <button type="submit">➕ Add</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Task</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="todo : ${todos}">
+            <td th:text="${todo.description}">Sample Task</td>
+            <td th:text="${todo.completed ? '✅ Done' : '⏳ Pending'}"></td>
+            <td>
+                <form th:action="@{'/todos/complete/' + ${todo.id}}" method="post" th:if="${!todo.completed}" style="display:inline;">
+                    <button type="submit">✅ Mark Done</button>
+                </form>
+                <form th:action="@{'/todos/delete/' + ${todo.id}}" method="post" style="display:inline;">
+                    <button type="submit">🗑️ Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/dashboard"><button>🏠 Back to Dashboard</button></a>
+</div>
+</body>
+</html>
