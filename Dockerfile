@@ -1,11 +1,24 @@
-# Use a lightweight OpenJDK base image
-FROM eclipse-temurin:21-jdk-alpine
+# ---- Stage 1: Build ----
+FROM maven:3.9.6-eclipse-temurin-21-alpine AS builder
 
-# Set working directory inside the container
 WORKDIR /app
 
-# Copy the jar file from your local machine into the container
-COPY target/Eduplanner-0.0.1-SNAPSHOT.jar app.jar
+# Copy all files to the container
+COPY . .
 
-# Command to run the jar file
+# Build the Spring Boot project (skip tests)
+RUN mvn clean package -DskipTests
+
+# ---- Stage 2: Run ----
+FROM eclipse-temurin:21-jdk-alpine
+
+WORKDIR /app
+
+# Copy only the built jar from the builder stage
+COPY --from=builder /app/target/Eduplanner-0.0.1-SNAPSHOT.jar app.jar
+
+# Expose port (optional; Railway auto-detects ports)
+EXPOSE 8080
+
+# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]

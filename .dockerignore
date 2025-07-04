@@ -1,12 +1,22 @@
+# Ignore these files when copying into Docker image
+
+# Maven stuff
 target/
+.mvn/
 *.iml
-*.log
-*.md
-*.txt
-*.idea/
-*.vscode/
-node_modules/
-build/
-.git/
-.gitignore
+.idea/
+
+# System files
 .DS_Store
+Thumbs.db
+
+# OS/Editor files
+*.log
+*.class
+*.swp
+*.bak
+*.tmp
+
+# Git
+.git
+.gitignore
