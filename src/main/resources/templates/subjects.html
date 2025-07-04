@@ -8,38 +8,41 @@
 </head>
 <body>
 <div class="container">
-    <h1>📚 Your Subjects</h1>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Subject Name</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="subject : ${subjects}">
-            <td th:text="${subject.name}">Subject Name</td>
-            <td class="actions">
-                <a th:href="@{'/subjects/edit/' + ${subject.id}}" class="btn btn-edit">✏️ Edit</a>
-                <a th:href="@{'/subjects/delete/' + ${subject.id}}"
-                   onclick="return confirm('Are you sure you want to delete this subject?')"
-                   class="btn btn-delete">🗑️ Delete</a>
-                <a th:href="@{'/subjects/' + ${subject.id} + '/details'}" class="btn btn-view">📄 View Details</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <h1 class="section-title">📚 Your Subjects</h1>
 
-    <div style="margin-top: 20px;">
-        <a th:href="@{/subjects/add}"><button>➕ Add New Subject</button></a>
-        <a href="/performance"><button>📊 View Performance Analytics</button></a>
-        <a th:href="@{/dashboard}"><button>🏠 Back to Dashboard</button></a>
+    <div class="card">
+        <table>
+            <thead>
+            <tr>
+                <th>Subject Name</th>
+                <th style="width: 300px;">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="subject : ${subjects}">
+                <td th:text="${subject.name}">Subject Name</td>
+                <td class="actions">
+                    <a th:href="@{'/subjects/edit/' + ${subject.id}}" class="btn btn-edit">✏️ Edit</a>
+                    <a th:href="@{'/subjects/delete/' + ${subject.id}}"
+                       onclick="return confirm('Are you sure you want to delete this subject?')"
+                       class="btn btn-delete">🗑️ Delete</a>
+                    <a th:href="@{'/subjects/' + ${subject.id} + '/details'}" class="btn btn-view">📄 View</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top: 30px; text-align: center;">
+        <a th:href="@{/subjects/add}" class="btn">➕ Add New Subject</a>
+        <a href="/performance" class="btn btn-view">📊 Performance</a>
+        <a th:href="@{/dashboard}" class="btn btn-edit">🏠 Dashboard</a>
     </div>
 
     <footer>
-<!--        <hr>-->
-<!--        <p style="text-align:center; color:#888;">Made with ❤️ using Spring Boot & Thymeleaf</p>-->
+        <hr>
+        <p style="text-align:center; color:#888;">Made with ❤️ using Spring Boot & Thymeleaf</p>
     </footer>
 </div>
 </body>

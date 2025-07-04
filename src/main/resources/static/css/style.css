@@ -145,3 +145,56 @@ body.centered-page {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
+
+/* Section Title Styling */
+.section-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #1976d2;
+    padding-bottom: 8px;
+}
+
+/* Card Layout (Reusable box for sections) */
+.card {
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+    margin-bottom: 20px;
+}
+
+/* Form input enhancements */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* Error Messages */
+.error-message {
+    color: #d32f2f;
+    background-color: #ffecec;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    border: 1px solid #ffcdd2;
+}
+
+/* Improved table row effect */
+tr:nth-child(even) {
+    background-color: #f9fbfc;
+}
+
+tr:hover {
+    background-color: #e3f2fd;
+}
